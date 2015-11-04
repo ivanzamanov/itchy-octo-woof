@@ -23,7 +23,7 @@ var server = http.createServer(function(req, resp) {
     str.pipe(resp);
   }
 }).listen(PORT);
-console.log('Serving ' + FILE + ' on port ' + PORT);
+console.log('Serving file: ' + FILE);
 
 process.on('exit', function() {
   console.log('exiting');
@@ -31,4 +31,9 @@ process.on('exit', function() {
 });
 
 console.log('Available interfaces: ');
-console.log(os.networkInterfaces());
+var faces = os.networkInterfaces();
+for(var face in faces) {
+  faces[face].forEach(function(addr) {
+    console.log(face + ": " + addr.address + ":" + PORT);
+  });
+}

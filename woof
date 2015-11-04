@@ -1,0 +1,2 @@
+#!/bin/sh
+nodejs $(dirname `readlink -f $0`)/woof.js $@
