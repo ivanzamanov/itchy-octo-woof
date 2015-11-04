@@ -13,8 +13,15 @@ var FILE = args[2],
     PORT = args[3] || 7000;
 
 var server = http.createServer(function(req, resp) {
-  var str = fs.createReadStream(FILE);
-  str.pipe(resp);
+  if(req.url.substring(1) !== FILE) {
+    resp.setHeader('Location', FILE);
+    resp.statusCode = 303;
+    resp.end();
+  } else {
+    resp.setHeader('Content-Type', 'application/octet-stream');
+    var str = fs.createReadStream(FILE);
+    str.pipe(resp);
+  }
 }).listen(PORT);
 console.log('Serving ' + FILE + ' on port ' + PORT);
 
