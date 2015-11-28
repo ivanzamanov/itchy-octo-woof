@@ -1,6 +1,7 @@
 var http = require('http'),
     fs = require('fs'),
-    os = require('os');
+    os = require('os'),
+    path = require('path');
 
 var args = process.argv;
 
@@ -12,9 +13,11 @@ if(args.length < 3) {
 var FILE = args[2],
     PORT = args[3] || 7000;
 
+var FILE_NAME = path.basename(FILE);
+
 var server = http.createServer(function(req, resp) {
-  if(req.url.substring(1) !== FILE) {
-    resp.setHeader('Location', FILE);
+  if(req.url.substring(1) !== FILE_NAME) {
+    resp.setHeader('Location', FILE_NAME);
     resp.statusCode = 303;
     resp.end();
   } else {
